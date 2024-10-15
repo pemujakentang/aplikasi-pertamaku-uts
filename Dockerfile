@@ -42,6 +42,8 @@ COPY backend/ .
 # Copy the built frontend from the previous stage into the backend's public directory
 COPY --from=frontend-builder /usr/src/frontend/dist ./public
 
+EXPOSE 5173
+
 # Expose the backend port
 EXPOSE 3000
 
