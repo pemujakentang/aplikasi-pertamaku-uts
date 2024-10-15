@@ -12,21 +12,24 @@ const getUser = async () => {
 };
 
 const changeEmail = async () => {
-  await fetch('http://localhost:3000/api/change-email', {
+  await fetch(`http://localhost:3000/api/user/${userId.value}/change-email`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: `email=${newEmail.value}`,
+    body: new URLSearchParams({
+      email: newEmail.value,
+    }).toString(),
   });
 };
+
 </script>
 
 <template>
   <div id="app">
     <h1>User Dashboard</h1>
     <div>
-      <input v-model="userId" placeholder="Enter User ID" />
+      <input type="number" v-model="userId" placeholder="Enter User ID" />
       <button @click="getUser">Get User Info</button>
     </div>
     <div v-if="users">

@@ -4,8 +4,13 @@ import { ref } from 'vue';
 const comment = ref('');
 const comments = ref('');
 
+const sanitizeHtml = (unsafeHtml) => {
+  const doc = new DOMParser().parseFromString(unsafeHtml, 'text/html');
+  return doc.body.textContent || "";
+};
+
 const submitComment = () => {
-  comments.value += `<p>${comment.value}</p>`;
+  comments.value += `<p>${sanitizeHtml(comment.value)}</p>`;
   comment.value = '';
 };
 </script>
