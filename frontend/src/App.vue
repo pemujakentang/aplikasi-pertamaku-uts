@@ -42,7 +42,7 @@ const changeEmail = async () => {
     <CommentSection />
     <form @submit.prevent="changeEmail">
       <h3>Change Email</h3>
-      <input v-model="newEmail" placeholder="New Email" />
+      <input v-model="newEmail" placeholder="New Email" type="email">
       <button type="submit">Submit</button>
     </form>
   </div>
