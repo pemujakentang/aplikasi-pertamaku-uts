@@ -22,7 +22,7 @@ services:
       dockerfile: Dockerfile
       target: frontend-builder
     ports:
-      - "5173:5173"
+      - "80:5173"
     volumes:
       - ./frontend:/usr/src/frontend
       - /usr/src/frontend/node_modules
@@ -31,16 +31,16 @@ services:
       - USER_NAME=${USER_NAME}
     command: pnpm run dev
 
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./certs:/etc/nginx/certs
-    depends_on:
-      - backend
-      - frontend
-    environment:
-      - USER_NAME=${USER_NAME}
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  #     - ./certs:/etc/nginx/certs
+  #   depends_on:
+  #     - backend
+  #     - frontend
+  #   environment:
+  #     - USER_NAME=${USER_NAME}

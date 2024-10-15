@@ -2,16 +2,13 @@
 import { ref } from 'vue';
 import CommentSection from './components/CommentSection.vue';
 
-const HOST_NAME = import.meta.env.VITE_HOST;
+const HOST_NAME = import.meta.env.VITE_HOST || 'http://localhost';
 
 const userId = ref('');
 const users = ref(null);
 const newEmail = ref('');
 
 const getUser = async () => {
-  console.log(import.meta.env);  // This will show all available env variables
-
-  console.log(HOST_NAME);
   const response = await fetch(`${HOST_NAME}:3000/api/user/${userId.value}`);
   users.value = await response.json();
 };
