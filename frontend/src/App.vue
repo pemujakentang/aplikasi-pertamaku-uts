@@ -2,20 +2,18 @@
 import { ref } from 'vue';
 import CommentSection from './components/CommentSection.vue';
 
-const HOST_NAME = `${import.meta.env.VITE_HOST}/${import.meta.env.VITE_USER_NAME}` || 'http://localhost:3000';
+const HOST_NAME = `${import.meta.env.VITE_HOST}` || 'http://localhost:3000';
 
 const userId = ref('');
 const users = ref(null);
 const newEmail = ref('');
 
 const getUser = async () => {
-  //pr nih
   const response = await fetch(`${HOST_NAME}/api/user/${userId.value}`);
   users.value = await response.json();
 };
 
 const changeEmail = async () => {
-  //pr nih
   await fetch(`${HOST_NAME}/api/user/${userId.value}/change-email`, {
     method: 'POST',
     headers: {

@@ -10,6 +10,8 @@ WORKDIR /usr/src/frontend
 # Copy the frontend package.json and pnpm-lock.yaml files
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
+ENV VITE_USER_NAME=$VITE_USER_NAME
+
 RUN npm install
 
 # Install frontend dependencies using pnpm
