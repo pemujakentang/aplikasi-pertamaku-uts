@@ -11,7 +11,7 @@ services:
       - /usr/src/backend/node_modules
     environment:
       - NODE_ENV=development
-      - USER_NAME=${VITE_USER_NAME}   # Use your username here
+      - USER_NAME=${VITE_USER_NAME}
     command: pnpm start
 
   frontend:
@@ -27,5 +27,5 @@ services:
     environment:
       - NODE_ENV=development
       - USER_NAME=${VITE_USER_NAME}
-      - VITE_USER_NAME=${VITE_USER_NAME}   # Use your username here
+      - VITE_USER_NAME=${VITE_USER_NAME}
     command: pnpm run dev

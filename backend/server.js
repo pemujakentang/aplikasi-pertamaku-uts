@@ -4,16 +4,39 @@ import { fileURLToPath } from 'url';
 import sqlite3 from 'sqlite3';
 import cors from 'cors';
 import csrf from 'csurf';
+import cookieParser from 'cookie-parser';
 
 const app = express();
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
+const csrfProtection = csrf({ cookie: true });
+
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost',
+  'http://localhost:5173',
+  'http://localhost/boni/',
+  'http://localhost:80',
+];
+
 app.use(cors({
-  origin: '*',
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true); 
+    } else {
+      callback(new Error('Not allowed by CORS')); // Deny
+    }
+  },
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'CSRF-Token'],
+  credentials: true,
   optionsSuccessStatus: 200,
 }));
 
-const connection = new sqlite3.Database('./db/aplikasi.db')
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(csrfProtection);
+
+const connection = new sqlite3.Database('./db/aplikasi.db');
 
 app.get('/api/user/:id', (req, res) => {
   const query = 'SELECT * FROM users WHERE id = ?';
@@ -25,9 +48,12 @@ app.get('/api/user/:id', (req, res) => {
   });
 });
 
-app.post('/api/user/:id/change-email', (req, res) => {
+app.get('/api/csrf-token', csrfProtection, (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
+
+app.post('/api/user/:id/change-email', csrfProtection, (req, res) => {
   const newEmail = req.body.email;
-  // console.log(newEmail)
   const query = 'UPDATE users SET email = ? WHERE id = ?';
   const params = [newEmail, req.params.id];
 
