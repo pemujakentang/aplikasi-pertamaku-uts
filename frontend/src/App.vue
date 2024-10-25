@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import CommentSection from './components/CommentSection.vue';
 
-const HOST_NAME = 'http://localhost:3000';
+const HOST_NAME = `${import.meta.env.VITE_HOST}` || 'http://localhost:3000';
 
 const userId = ref('');
 const users = ref(null);
@@ -27,7 +27,6 @@ const sanitizeHTML = (htmlString) => {
   return doc.body.innerHTML;
 };
 
-// Fetch user data from the server
 const getUser = async () => {
   const response = await fetch(`${HOST_NAME}/api/user/${userId.value}`);
   const data = await response.json();
@@ -47,7 +46,7 @@ const changeEmail = async () => {
       'Content-Type': 'application/x-www-form-urlencoded',
       'CSRF-Token': csrfToken.value,
     },
-    credentials: 'include',  // Make sure this is included
+    credentials: 'include',
     body: new URLSearchParams({
       email: sanitizeHTML(newEmail.value),
     }).toString(),

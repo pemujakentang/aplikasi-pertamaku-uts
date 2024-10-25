@@ -3,7 +3,7 @@ FROM node:20 AS frontend-builder
 WORKDIR /usr/src/frontend
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
-ENV VITE_USER_NAME=boni
+ENV VITE_USER_NAME={VITE_USER_NAME}
 
 RUN npm install -g pnpm && pnpm install
 COPY frontend/ .
